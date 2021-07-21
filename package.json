@@ -1,19 +1,18 @@
 {
   "name": "kickstart",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fs-extra": "^10.0.0",
     "ganache-cli": "^6.12.2",
     "mocha": "^8.4.0",
-    "solc": "^0.4.26",
+    "solc": "^0.4.25",
     "truffle-hdwallet-provider": "^0.0.3",
     "web3": "^1.4.0"
-  },
-  "description": ""
+  }
 }

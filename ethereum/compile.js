@@ -1,20 +1,19 @@
 const path = require('path');
 const solc = require('solc');
 const fs = require('fs-extra');
-const { readSync } = require('fs');
 
 const buildPath = path.resolve(__dirname, 'build');
 fs.removeSync(buildPath);
 
-const campaignPath = path.resolve(__dirname, 'contracts', 'Campaign.sol');
-const src = fs.readFileSync(campaignPath, 'utf8');
-const output = solc.compile(src, 1).contracts;
+const lifecyclePath = path.resolve(__dirname, 'contracts', 'Lifecycle.sol');
+const source = fs.readFileSync(lifecyclePath, 'utf8');
+const output = solc.compile(source, 1).contracts;
 
-fs.ensureDirSync(buildPath); //create build folder
+fs.ensureDirSync(buildPath);
 
-for(let contract in output) {
+for (let contract in output) {
   fs.outputJsonSync(
-    path.resolve(buildPath, contract.replace(':', '') + '.json'), 
-    output[contract] //contents we want to write to json file in build folder
-  )
+    path.resolve(buildPath, contract.replace(':', '') + '.json'),
+    output[contract]
+  );
 }

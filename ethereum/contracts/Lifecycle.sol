@@ -1,20 +1,19 @@
-pragma solidity ^0.8.4;
+pragma solidity ^0.4.25;
 
 //contract deployed each time a product is or products are listed on the market
 //product info will be held on mongodb
 
 contract Lifecycle {
-  
-    enum Status { Listed, Pending, Shipped, Accepted, Rejected, Cancelled, Inactive }
-    Status public status;
    
-    address payable public buyer;
-    address payable public seller;
+    address public buyer;
+    address public seller;
+    
     uint public value;
     uint timePurchased;
   
-    
-    error ValueNotEven();
+   enum Status { Listed, Pending, Shipped, Accepted, Rejected, Cancelled, Inactive }
+    Status public status;
+
     
     modifier onlySeller() {
         require(msg.sender == seller, 'Only seller can cancel product listing');
@@ -34,11 +33,10 @@ contract Lifecycle {
     event ItemRejected(bytes32 reason);
     
     constructor() public payable {
-        uint value = msg.value / 2;
+        value = (msg.value / 2);
         
-        if((2 * value) != msg.value) revert ValueNotEven();
-        
-        seller = payable(msg.sender);
+        //include statement here about requiring to be even
+        seller = msg.sender;
     }
     
     function cancelListing() public onlySeller {
@@ -52,7 +50,7 @@ contract Lifecycle {
         
         emit PendingItemCancelled(_reason);
         
-        status == Status.Cancelled;
+        status = Status.Cancelled;
         
         buyer.transfer(value * 2);
     }
@@ -65,7 +63,7 @@ contract Lifecycle {
         emit ItemPurchased(msg.sender);
         
         status = Status.Pending;
-        seller = payable(msg.sender);
+        seller = msg.sender;
         timePurchased = block.timestamp;
     }
     
